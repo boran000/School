@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 mb-4">Video Gallery</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="btn-group" role="group" aria-label="Video categories">
+                <a href="{{ url_for('main.gallery_videos') }}" class="btn btn-outline-primary {% if not selected_category %}active{% endif %}">All</a>
+                {% for category in categories %}
+                <a href="{{ url_for('main.gallery_videos', category_id=category.id) }}" class="btn btn-outline-primary {% if selected_category and selected_category.id == category.id %}active{% endif %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for video in videos %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="ratio ratio-16x9">
+                    {% if video.video_platform == 'youtube' %}
+                        <iframe src="https://www.youtube.com/embed/{{ video.file_url.split('/')[-1].split('v=')[-1].split('&')[0] }}"
+                                title="{{ video.title }}"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    {% elif video.video_platform == 'facebook' %}
+                        <iframe src="https://www.facebook.com/plugins/video.php?href={{ video.file_url }}&show_text=false"
+                                style="border:none;overflow:hidden"
+                                scrolling="no" frameborder="0"
+                                allowtransparency="true" allowfullscreen="true"></iframe>
+                    {% elif video.thumbnail_url %}
+                        <img src="{{ url_for('static', filename=video.thumbnail_url.replace('/uploads/', 'uploads/')) }}" class="img-fluid" alt="{{ video.title }}">
+                    {% else %}
+                        <video controls>
+                            <source src="{{ url_for('static', filename=video.file_url.replace('/uploads/', 'uploads/')) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    {% if video.description %}
+                    <p class="card-text">{{ video.description }}</p>
+                    {% endif %}
+                    <p class="card-text"><small class="text-muted">Category: {{ video.gallery_category }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">No videos found in this category.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

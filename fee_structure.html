@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Fee Structure</h1>
+
+    {% if academic_years %}
+    <div class="mb-4">
+        <div class="btn-group" role="group" aria-label="Academic years">
+            {% for year in academic_years %}
+                <a href="{{ url_for('main.fee_structure', academic_year=year) }}" 
+                   class="btn {% if year == selected_year %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                    {{ year }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if fees %}
+        {% if fees[0].file_url %}
+            <!-- If there's a document, display it prominently -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ fees[0].title }}</h5>
+                </div>
+                <div class="card-body">
+                    {% if fees[0].file_url.endswith('.pdf') %}
+                        <div class="ratio ratio-16x9 mb-3">
+                            <iframe src="{{ url_for('static', filename=fees[0].file_url.lstrip('/')) }}" allowfullscreen></iframe>
+                        </div>
+                    {% else %}
+                        <div class="text-center mb-3">
+                            <img src="{{ url_for('static', filename=fees[0].file_url.lstrip('/')) }}" class="img-fluid" alt="Fee Structure Document">
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{{ url_for('static', filename=fees[0].file_url.lstrip('/')) }}" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-eye"></i> View Full Document
+                        </a>
+                        <a href="{{ url_for('static', filename=fees[0].file_url.lstrip('/')) }}" download class="btn btn-success">
+                            <i class="bi bi-download"></i> Download Document
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            {% for fee in fees %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">{{ fee.title }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Class:</th>
+                                <td>{{ fee.class_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Fee Type:</th>
+                                <td>{{ fee.fee_type | capitalize }}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount:</th>
+                                <td>₹{{ fee.amount }}</td>
+                            </tr>
+                            <tr>
+                                <th>Payment Frequency:</th>
+                                <td>{{ fee.payment_frequency | capitalize }}</td>
+                            </tr>
+                        </table>
+
+                        {% if fee.notes %}
+                        <div class="alert alert-info">
+                            <strong>Notes:</strong> {{ fee.notes }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <div class="alert alert-info">
+        No fee structure information available for the selected academic year.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

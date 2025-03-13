@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Popup Banner -->
+{% if show_popup and popup %}
+<!-- Popup Banner -->
+<div id="popupBanner" class="popup-banner">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h4>{{ popup.title }}</h4>
+            <button type="button" class="popup-close" id="popupCloseBtn">&times;</button>
+        </div>
+        <div class="popup-body">
+            {% if popup.image_url %}
+                {% if popup.image_url.startswith('http') %}
+                    <img src="{{ popup.image_url }}" alt="{{ popup.title }}" class="img-fluid mb-3">
+                {% else %}
+                    <img src="{{ url_for('static', filename=popup.image_url.lstrip('/')) }}" alt="{{ popup.title }}" class="img-fluid mb-3">
+                {% endif %}
+            {% endif %}
+            {% if popup.content %}
+                <div class="popup-text">{{ popup.content|safe }}</div>
+            {% endif %}
+        </div>
+        <div class="popup-footer text-end p-3">
+            <button type="button" class="btn btn-secondary" id="popupCloseBtn2">Close</button>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if banners %}
+<div id="carouselBanners" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for banner in banners %}
+            <button type="button" data-bs-target="#carouselBanners" data-bs-slide-to="{{ loop.index0 }}"
+                    {% if loop.first %}class="active" aria-current="true"{% endif %}
+                    aria-label="Slide {{ loop.index }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for banner in banners %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                {% if banner.image_url.startswith('http') %}
+                    <img src="{{ banner.image_url }}" class="d-block w-100" alt="{{ banner.title }}" style="height: 500px; object-fit: cover;">
+                {% else %}
+                    <img src="{{ url_for('static', filename=banner.image_url.lstrip('/')) }}" class="d-block w-100" alt="{{ banner.title }}" style="height: 500px; object-fit: cover;">
+                {% endif %}
+                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+                    <h5>{{ banner.title }}</h5>
+                    <p>{{ banner.description }}</p>
+                    {% if banner.link_url %}
+                        <a href="{{ banner.link_url }}" class="btn btn-primary">Learn More</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanners" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselBanners" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+{% endif %}
+
+<!-- Popup banner has been removed -->
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-mortarboard"></i> Academic Excellence</h5>
+                <p class="card-text">Our comprehensive curriculum ensures students receive quality education across all subjects.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people"></i> Expert Faculty</h5>
+                <p class="card-text">Learn from experienced educators dedicated to student success.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-building"></i> Modern Facilities</h5>
+                <p class="card-text">State-of-the-art facilities supporting both academic and extracurricular activities.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="latest-announcements mb-5">
+    <h2 class="mb-4">Latest Announcements</h2>
+    {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ announcement.title }}</h5>
+                <div>{{ announcement.content|safe }}</div>
+                <small class="text-muted">Posted on {{ announcement.created_at.strftime('%B %d, %Y') }}</small>
+                {% if announcement.file_url %}
+                    <div class="mt-3">
+                        <a href="{{ url_for('static', filename=announcement.file_url.lstrip('/')) }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="bi bi-file-earmark"></i> View Attachment
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No announcements at this time.</p>
+    {% endif %}
+</div>
+
+<div class="quick-links">
+    <h2 class="mb-4">Quick Links</h2>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <a href="{{ url_for('main.admissions') }}" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-pencil-square fs-1"></i>
+                    <h5 class="mt-2">Admissions</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('main.academics') }}" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-book fs-1"></i>
+                    <h5 class="mt-2">Academics</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('main.news') }}" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-newspaper fs-1"></i>
+                    <h5 class="mt-2">News</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('main.contact') }}" class="card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-envelope fs-1"></i>
+                    <h5 class="mt-2">Contact</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

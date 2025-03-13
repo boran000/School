@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Photo Gallery</h1>
+
+    {% if categories %}
+        <div class="mb-4">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <a href="{{ url_for('main.gallery_photos') }}" class="btn btn-sm {% if not selected_category %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+                {% for category in categories %}
+                    <a href="{{ url_for('main.gallery_photos', category_id=category.id) }}" class="btn btn-sm {% if selected_category and selected_category.id == category.id %}btn-primary{% else %}btn-outline-primary{% endif %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if photos %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for photo in photos %}
+                    <div class="col">
+                        <div class="card h-100">
+                            {% if photo.image_url.startswith('http') %}
+                                <img src="{{ photo.image_url }}" class="card-img-top img-fluid" alt="{{ photo.title }}" style="height: 250px; object-fit: cover;">
+                            {% else %}
+                                <img src="{{ url_for('static', filename=photo.image_url.lstrip('/')) }}" class="card-img-top img-fluid" alt="{{ photo.title }}" style="height: 250px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ photo.title }}</h5>
+                                {% if photo.description %}
+                                    <p class="card-text">{{ photo.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">No photos found in this category.</div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info">No gallery categories have been created yet.</div>
+    {% endif %}
+</div>
+{% endblock %}
