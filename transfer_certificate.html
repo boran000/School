@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Transfer Certificate Retrieval</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Get Your Transfer Certificate</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.admission_number.label(class="form-label") }}
+                            {{ form.admission_number(class="form-control" + (" is-invalid" if form.admission_number.errors else "")) }}
+                            {% for error in form.admission_number.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                            <small class="text-muted">Enter your admission number to retrieve your transfer certificate.</small>
+                        </div>
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            {% if tc %}
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Transfer Certificate Found</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>TC Number:</strong> {{ tc.tc_number }}</p>
+                        <p><strong>Issue Date:</strong> {{ tc.issue_date.strftime('%d-%m-%Y') }}</p>
+                        <p><strong>Status:</strong> <span class="badge bg-success">Approved</span></p>
+                        
+                        {% if tc.file_url %}
+                            <div class="d-grid">
+                                <a href="{{ tc.file_url }}" class="btn btn-primary" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i> Download Transfer Certificate
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Certificate file not available. Please contact the school administration.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% elif searched %}
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Transfer Certificate Not Found</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            No transfer certificate found for the provided admission number. Please contact the school administration for assistance.
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

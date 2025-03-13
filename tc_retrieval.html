@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Transfer Certificate Retrieval</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead mb-4">Enter your admission number (username) to retrieve your transfer certificate.</p>
+
+                    <form method="POST" class="mb-4">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <label for="admission_number" class="form-label">Admission Number</label>
+                            <input type="text" class="form-control" id="admission_number" name="admission_number" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Retrieve Certificate</button>
+                        </div>
+                    </form>
+
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i> {{ error }}
+                        </div>
+                    {% endif %}
+
+                    {% if tc %}
+                        <div class="alert alert-success mb-4">
+                            <i class="bi bi-check-circle me-2"></i> Transfer Certificate found!
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Certificate Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>TC Number:</strong> {{ tc.tc_number }}</p>
+                                <p><strong>Issue Date:</strong> {{ tc.created_at.strftime('%d-%m-%Y') }}</p>
+                                {% if tc.file_url %}
+                                <div class="d-grid gap-2">
+                                <a href="{{ url_for('static', filename=tc.file_url.lstrip('/')) }}" class="btn btn-success" target="_blank">
+                                    <i class="bi bi-eye me-2"></i> View Transfer Certificate
+                                </a>
+                                <a href="{{ url_for('static', filename=tc.file_url.lstrip('/')) }}" class="btn btn-primary" download>
+                                    <i class="bi bi-download me-2"></i> Download Transfer Certificate
+                                </a>
+                            </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

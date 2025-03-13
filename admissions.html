@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admissions-page">
+    <div class="hero-section bg-info bg-gradient text-white p-5 mb-5">
+        <div class="container">
+            <h1>Admissions</h1>
+            <p class="lead">Join our community of learners</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <h2>Admission Process</h2>
+                <div class="process-timeline">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-1-circle text-primary"></i> Application Submission</h5>
+                            <p class="card-text">Complete the online application form and submit required documents.</p>
+                            <ul>
+                                <li>Birth Certificate</li>
+                                <li>Previous Academic Records</li>
+                                <li>Passport Size Photographs</li>
+                                <li>Transfer Certificate (if applicable)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-2-circle text-primary"></i> Entrance Assessment</h5>
+                            <p class="card-text">Students take an assessment test in core subjects.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-3-circle text-primary"></i> Interview</h5>
+                            <p class="card-text">Personal interview with student and parents.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-4-circle text-primary"></i> Admission Confirmation</h5>
+                            <p class="card-text">Selected candidates receive admission offer and complete fee payment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Important Dates</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Application Opens:</strong><br>
+                                January 15, 2024
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Application Deadline:</strong><br>
+                                March 31, 2024
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Assessment Tests:</strong><br>
+                                April 15-20, 2024
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Results Declaration:</strong><br>
+                                May 1, 2024
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fee-structure mb-5">
+            <h2>Fee Structure</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Grade Level</th>
+                            <th>Admission Fee</th>
+                            <th>Annual Tuition</th>
+                            <th>Other Charges</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Primary (1-5)</td>
+                            <td>$500</td>
+                            <td>$5,000</td>
+                            <td>$300</td>
+                        </tr>
+                        <tr>
+                            <td>Middle (6-8)</td>
+                            <td>$600</td>
+                            <td>$6,000</td>
+                            <td>$400</td>
+                        </tr>
+                        <tr>
+                            <td>High (9-12)</td>
+                            <td>$700</td>
+                            <td>$7,000</td>
+                            <td>$500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2>Financial Aid</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Scholarships Available</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Academic Excellence Scholarship</li>
+                            <li class="list-group-item">Sports Achievement Scholarship</li>
+                            <li class="list-group-item">Need-based Financial Aid</li>
+                            <li class="list-group-item">Sibling Discount</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>Apply Now</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Ready to join our school? Start your application process today.</p>
+                        <a href="#" class="btn btn-primary btn-lg">Start Application</a>
+                        <p class="mt-3">
+                            <small class="text-muted">For any queries, contact our admissions office:<br>
+                            Email: admissions@school.com<br>
+                            Phone: (123) 456-7890</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="accordion" id="admissionsFAQ">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What are the age requirements for admission?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#admissionsFAQ">
+                        <div class="accordion-body">
+                            Age requirements vary by grade level. Generally, students should be age-appropriate for their grade level as of September 1st of the academic year.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Is there a waiting list?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#admissionsFAQ">
+                        <div class="accordion-body">
+                            Yes, when classes are full, qualified applicants are placed on a waiting list and notified of openings in the order of their application.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
